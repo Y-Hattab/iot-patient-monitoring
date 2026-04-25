@@ -10,9 +10,10 @@ The final architecture is:
 
 ```text
 IoT Simulator → Kafka Topics → Spark Streaming → MongoDB + Kafka Alert Topics
+```
 The project follows the requirements of the Big Data Lab statement: Kafka, MongoDB, Spark Streaming, Docker Compose, real-time alerting, and a dataset with at least 10,000 records.
 
-2. Technologies Used
+## 2. Technologies Used
 Docker Compose
 Apache Kafka
 Zookeeper
@@ -23,7 +24,7 @@ Python
 kafka-python
 PySpark
 MongoDB Spark Connector
-3. Project Structure
+## 3. Project Structure
 iot-patient-monitoring/
 │
 ├── docker-compose.yml
@@ -58,7 +59,7 @@ scripts/create_topics.py: creates the Kafka topics required by the project.
 scripts/inject_critical_alert.py: injects a critical medical reading for the live demo.
 scripts/threshold_processor.py: backup Python processor used during development.
 spark/streaming_job.py: main Spark Streaming job that reads Kafka, applies thresholds, stores data in MongoDB, and sends alerts.
-4. Dataset Description
+## 4. Dataset Description
 
 The dataset is generated synthetically using Python.
 
@@ -90,7 +91,7 @@ Each record follows this schema:
 
 The values are generated to include mostly normal values, some warning values, and a few critical values. This allows testing of the real-time alert system.
 
-5. Kafka Topics
+## 5. Kafka Topics
 
 The following Kafka topics are used:
 
@@ -105,7 +106,7 @@ patient.alerts.critical	Critical alerts	1
 
 A separate topic is used for each medical metric because each metric has different medical thresholds. Alert topics are separated by severity level.
 
-6. MongoDB Collections
+## 6. MongoDB Collections
 
 The MongoDB database is named:
 
@@ -129,7 +130,7 @@ alerts
 
 Stores only warning and critical alerts.
 
-7. Medical Thresholds
+## 7. Medical Thresholds
 
 Spark Streaming classifies each reading as:
 
@@ -145,7 +146,7 @@ Temperature	36.1–37.2 °C	> 38.0	> 39.5 or < 35
 OxygenLevel	95–100 %	< 93	< 90
 BloodPressure	80–120 mmHg	> 130	> 180 or < 70
 RespiratoryRate	12–20 breaths/min	< 10 or > 24	< 8 or > 30
-8. Installation and Execution Guide
+## 8. Installation and Execution Guide
 Step 1 — Start Docker services
 docker compose up -d
 
@@ -246,7 +247,7 @@ MongoDB → patient_monitoring → alerts
 Kafka topic → patient.alerts.critical
 Step 9 — View critical alerts from Kafka
 docker exec -it kafka kafka-console-consumer --bootstrap-server localhost:9092 --topic patient.alerts.critical --from-beginning
-9. Demo Scenario
+## 9. Demo Scenario
 
 For the live demo:
 
@@ -270,7 +271,7 @@ python scripts/inject_critical_alert.py
 Show the alert in:
 patient_monitoring → alerts
 patient.alerts.critical
-10. Stop the Project
+## 10. Stop the Project
 
 Stop running Python scripts with:
 
@@ -286,7 +287,7 @@ docker compose down -v
 
 Use down -v only when you want to reset MongoDB data.
 
-11. Notes
+## 11. Notes
 
 The file scripts/threshold_processor.py is kept as a backup processor used during development. The final version of the project uses Spark Streaming through:
 
